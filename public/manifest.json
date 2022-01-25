@@ -3,9 +3,9 @@
   "name": "Bradle",
   "icons": [
     {
-      "src": "favicon.png",
+      "src": "favicon.svg",
       "sizes": "128x128",
-      "type": "image/png"
+      "type": "image/svg+xml"
     }
   ],
   "start_url": ".",
