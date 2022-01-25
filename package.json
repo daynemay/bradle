@@ -1,7 +1,7 @@
 {
-  "name": "wordl",
+  "name": "Bradle",
   "version": "0.1.0",
-  "homepage": "http://hellowordl.net/",
+  "homepage": "",
   "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.1",
@@ -25,12 +25,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [

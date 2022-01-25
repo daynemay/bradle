@@ -144,21 +144,6 @@ a:active {
   color: #cc77ff;
 }
 
-.Game-options {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
-
-.Game-options > * + * {
-  margin-inline-start: 0.5rem;
-}
-
-.Game-options button {
-  min-width: 4rem;
-}
-
 .App-footer {
   margin: -1rem 0 2rem 0;
   font-size: 80%;
@@ -217,7 +202,7 @@ a:active {
   height: 18px;
 }
 
-.Settings-setting input[type=range] {
+.Settings-setting input[type="range"] {
   width: 50px;
   height: 18px;
 }
