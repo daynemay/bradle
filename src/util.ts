@@ -1,9 +1,8 @@
 import dictionary from "./dictionary.json";
 
 export enum Difficulty {
-  Normal,
-  Hard,
-  UltraHard,
+  Robot,
+  Abuse,
 }
 
 export const maxGuesses = 6;
