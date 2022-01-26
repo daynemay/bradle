@@ -85,7 +85,7 @@ function App() {
                 new Date().toISOString().replace(/-/g, "").slice(0, 8))
           }
         >
-          {seed ? "Random" : "Today's"}
+          {seed ? "random" : "today"}
         </a>
       </div>
       {page === "about" && <About />}
