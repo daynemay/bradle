@@ -3,7 +3,8 @@ import { Row, RowState } from "./Row";
 import dictionary from "./dictionary.json";
 import { Clue, clue, describeClue, violation } from "./clue";
 import { Keyboard } from "./Keyboard";
-import targetList from "./targets.json";
+import abuseList from "./targets.abuse.json";
+import robotList from "./targets.robot.json";
 import {
   dictionarySet,
   Difficulty,
@@ -27,13 +28,12 @@ interface GameProps {
   difficulty: Difficulty;
 }
 
-// const targets = targetList.slice(0, targetList.indexOf("murky") + 1); // Words no rarer than this one
-const targets = targetList;
+// TODO: simplify the hard-coded length of 5
 const minWordLength = 4;
 const maxWordLength = 11;
 
-function randomTarget(wordLength: number): string {
-  const eligible = targets.filter((word) => word.length === wordLength);
+function randomTarget(difficulty: Difficulty): string {
+  const eligible = difficulty === Difficulty.Robot ? robotList : abuseList;
   let candidate: string;
   do {
     candidate = pick(eligible);
@@ -78,7 +78,7 @@ function Game(props: GameProps) {
   );
   const [target, setTarget] = useState(() => {
     resetRng();
-    return challenge || randomTarget(wordLength);
+    return challenge || randomTarget(props.difficulty);
   });
   const [gameNumber, setGameNumber] = useState(1);
   const tableRef = useRef<HTMLTableElement>(null);
@@ -91,7 +91,7 @@ function Game(props: GameProps) {
     const newWordLength =
       wordLength < minWordLength || wordLength > maxWordLength ? 5 : wordLength;
     setWordLength(newWordLength);
-    setTarget(randomTarget(newWordLength));
+    setTarget(randomTarget(props.difficulty));
     setGuesses([]);
     setCurrentGuess("");
     setHint("");

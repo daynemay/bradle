@@ -63,10 +63,9 @@ export function violation(
   clues: CluedLetter[],
   guess: string
 ): string | undefined {
-  if (difficulty === Difficulty.Normal) {
+  if (difficulty === Difficulty.Robot) {
     return undefined;
   }
-  const ultra = difficulty === Difficulty.UltraHard;
   let i = 0;
   for (const { letter, clue } of clues) {
     const clueCount = clues.filter(
@@ -87,18 +86,6 @@ export function violation(
       const atLeastN =
         clueCount > 1 ? `at least ${englishNumbers[clueCount]} ` : "";
       return `Guess must contain ${atLeastN}${glyphs}`;
-    }
-
-    // Ultra Hard: disallow would-be greens.
-    if (ultra && clue !== Clue.Correct && guess[i] === letter) {
-      return nth + " letter can't be " + glyph;
-    }
-
-    // Ultra Hard: if the exact amount is known because of an Absent clue, enforce it.
-    if (ultra && clue === Clue.Absent && guessCount !== clueCount) {
-      return clueCount === 0
-        ? `Guess can't contain ${glyph}`
-        : `Guess must contain exactly ${englishNumbers[clueCount]} ${glyphs}`;
     }
 
     ++i;

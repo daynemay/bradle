@@ -105,14 +105,14 @@ function App() {
               id="difficulty-setting"
               type="range"
               min="0"
-              max="2"
+              max="1"
               value={difficulty}
               onChange={(e) => setDifficulty(+e.target.value)}
             />
             <div>
               <label htmlFor="difficulty-setting">Difficulty:</label>
               &nbsp;
-              <strong>{["Normal", "Hard", "Ultra Hard"][difficulty]}</strong>
+              <strong>{["ROBOT", "ABUSE"][difficulty]}</strong>
               <div
                 style={{
                   fontSize: 14,
@@ -123,7 +123,7 @@ function App() {
               >
                 {
                   [
-                    `Guesses must be valid dictionary words.`,
+                    `Guesses must be the word ROBOT.`,
                     `Wordle's "Hard Mode". Green letters must stay fixed, and yellow letters must be reused.`,
                     `An even stricter Hard Mode. Yellow letters must move away from where they were clued, and gray clues must be obeyed.`,
                   ][difficulty]
