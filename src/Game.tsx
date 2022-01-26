@@ -259,7 +259,7 @@ function Game(props: GameProps) {
           <button
             onClick={() => {
               share(
-                getChallengeUrl(target),
+                `Bradlē ${guesses.length}/${props.maxGuesses}`,
                 "Result copied to clipboard!",
                 guesses
                   .map((guess) =>
