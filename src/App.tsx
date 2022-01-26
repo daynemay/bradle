@@ -124,7 +124,7 @@ function App() {
                 {
                   [
                     `Answers are always the word ROBOT.`,
-                    `Wordle's "Hard Mode". Green must stay fixed, yellow must be reused. Answers are... mean.`,
+                    `Wordle's "Hard Mode". Green must stay fixed, yellow must be reused. Answers are... kinda mean.`,
                   ][difficulty]
                 }
               </div>
