@@ -123,9 +123,8 @@ function App() {
               >
                 {
                   [
-                    `Guesses must be the word ROBOT.`,
-                    `Wordle's "Hard Mode". Green letters must stay fixed, and yellow letters must be reused.`,
-                    `An even stricter Hard Mode. Yellow letters must move away from where they were clued, and gray clues must be obeyed.`,
+                    `Answers are always the word ROBOT.`,
+                    `Wordle's "Hard Mode". Green must stay fixed, yellow must be reused. Answers are... mean.`,
                   ][difficulty]
                 }
               </div>
