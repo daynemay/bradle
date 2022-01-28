@@ -160,7 +160,7 @@ function Game(props: GameProps) {
       setCurrentGuess((guess) => "");
 
       const gameOver = (verbed: string) =>
-        `You ${verbed}! The answer was ${target.toUpperCase()}. (Enter to ${
+        `You ${verbed}! The answer was ${target.toUpperCase()}. (Press enter to ${
           challenge ? "play a random game" : "play again"
         })`;
 
