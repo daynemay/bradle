@@ -1,0 +1,34 @@
+name: Build, Test and Deploy to bradle.daynemay.com
+on:
+  push:
+    branches:
+      - main
+      - ci_build # TODO: delete
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install
+        run: npm install
+
+      - name: Build
+        run: |
+          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/daynemay/bradle.git
+          npm run build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Test
+      #   run: npm run test
+
+      - name: Deploy
+        run: |
+          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/daynemay/bradle.git
+          npm run deploy -- -u "github-actions-bot <support+actions@github.com>"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
