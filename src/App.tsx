@@ -1,5 +1,5 @@
 import "./App.css";
-import { maxGuesses, seed } from "./util";
+import { maxGuesses, seed, TargetPool } from "./util";
 import Game from "./Game";
 import { useEffect, useState } from "react";
 import { About } from "./About";
@@ -33,7 +33,17 @@ function App() {
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [dark, setDark] = useSetting<boolean>("dark", prefersDark);
-  const [difficulty, setDifficulty] = useSetting<number>("difficulty", 0);
+  const [mode, setMode] = useSetting<number>("mode", 0);
+  const [targetPool, setTargetPool] = useSetting<number>("targetPool", 0);
+
+  const changeTargetPool = (pool: TargetPool): void => {
+    setTargetPool(pool);
+    abandonGame();
+  }
+
+  const abandonGame = () => {
+    document.location = '?seed=random';
+  }
 
   useEffect(() => {
     document.body.className = dark ? "dark" : "";
@@ -100,19 +110,56 @@ function App() {
             />
             <label htmlFor="dark-setting">Dark theme</label>
           </div>
+
           <div className="Settings-setting">
             <input
-              id="difficulty-setting"
+              id="mode-setting"
               type="range"
               min="0"
               max="1"
-              value={difficulty}
-              onChange={(e) => setDifficulty(+e.target.value)}
+              value={mode}
+              onChange={(e) => setMode(+e.target.value)}
             />
-            <div>
-              <label htmlFor="difficulty-setting">Difficulty:</label>
-              &nbsp;
-              <strong>{["ROBOT", "ABUSE"][difficulty]}</strong>
+            <div className="Settings-description">
+              <div>
+                <label htmlFor="mode-setting">Mode:</label>
+                &nbsp;
+                <strong>{["Regular", "Hard"][mode]}</strong>
+              </div>
+              <div
+                style={{
+                  fontSize: 14,
+                  height: 40,
+                  marginLeft: 8,
+                  marginTop: 8,
+                }}
+              >
+                {
+                  [
+                    `Regular mode.`,
+                    `Wordle's "Hard Mode".
+                    Any revealed hints must be used in subsequent guesses. Green letters must stay fixed, yellow letters must be reused.`,
+                  ][mode]
+                }
+              </div>
+            </div>
+          </div>
+
+          <div className="Settings-setting">
+            <input
+              id="target-pool-setting"
+              type="range"
+              min="0"
+              max="1"
+              value={targetPool}
+              onChange={(e) => changeTargetPool(+e.target.value)}
+            />
+            <div className="Settings-description">
+              <div>
+                <label htmlFor="target-pool-setting">Targets:</label>
+                &nbsp;
+                <strong>{["ROBOT", "ABUSE"][targetPool]}</strong>
+              </div>
               <div
                 style={{
                   fontSize: 14,
@@ -124,9 +171,11 @@ function App() {
                 {
                   [
                     `Answers are always the word ROBOT.`,
-                    `Wordle's "Hard Mode". Green must stay fixed, yellow must be reused. Answers are... kinda mean.`,
-                  ][difficulty]
+                    `Answers are... kinda mean.`,
+                  ][targetPool]
                 }
+                <p><em><strong>WARNING!</strong> Changing this setting will <strong>abandon</strong> the current game and start a new one with a random target word.</em></p>
+
               </div>
             </div>
           </div>
@@ -135,7 +184,8 @@ function App() {
       <Game
         maxGuesses={maxGuesses}
         hidden={page !== "game"}
-        difficulty={difficulty}
+        targetPool={targetPool}
+        mode={mode}
       />
     </div>
   );

@@ -7,7 +7,8 @@ import abuseList from "./targets.abuse.json";
 import robotList from "./targets.robot.json";
 import {
   dictionarySet,
-  Difficulty,
+  TargetPool,
+  Mode,
   pick,
   resetRng,
   seed,
@@ -25,15 +26,14 @@ enum GameState {
 interface GameProps {
   maxGuesses: number;
   hidden: boolean;
-  difficulty: Difficulty;
+  targetPool: TargetPool;
+  mode: Mode;
 }
 
-// TODO: simplify the hard-coded length of 5
-const minWordLength = 4;
-const maxWordLength = 11;
+const WORD_LENGTH = 5;
 
-function randomTarget(difficulty: Difficulty): string {
-  const eligible = difficulty === Difficulty.Robot ? robotList : abuseList;
+function randomTarget(pool: TargetPool): string {
+  const eligible = pool === TargetPool.Robot ? robotList : abuseList;
   let candidate: string;
   do {
     candidate = pick(eligible);
@@ -74,11 +74,11 @@ function Game(props: GameProps) {
   );
   const [challenge, setChallenge] = useState<string>(initChallenge);
   const [wordLength, setWordLength] = useState(
-    challenge ? challenge.length : 5
+    challenge ? challenge.length : WORD_LENGTH
   );
   const [target, setTarget] = useState(() => {
     resetRng();
-    return challenge || randomTarget(props.difficulty);
+    return challenge || randomTarget(props.targetPool);
   });
   const [gameNumber, setGameNumber] = useState(1);
   const tableRef = useRef<HTMLTableElement>(null);
@@ -88,10 +88,8 @@ function Game(props: GameProps) {
       window.history.replaceState({}, document.title, window.location.pathname);
     }
     setChallenge("");
-    const newWordLength =
-      wordLength < minWordLength || wordLength > maxWordLength ? 5 : wordLength;
-    setWordLength(newWordLength);
-    setTarget(randomTarget(props.difficulty));
+    setWordLength(WORD_LENGTH);
+    setTarget(randomTarget(props.targetPool));
     setGuesses([]);
     setCurrentGuess("");
     setHint("");
@@ -150,7 +148,7 @@ function Game(props: GameProps) {
       }
       for (const g of guesses) {
         const c = clue(g, target);
-        const feedback = violation(props.difficulty, c, currentGuess);
+        const feedback = violation(props.targetPool, props.mode, c, currentGuess);
         if (feedback) {
           setHint(feedback);
           return;
