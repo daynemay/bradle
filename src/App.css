@@ -194,7 +194,7 @@ a:active {
 .Settings-setting {
   margin: 8px;
   display: flex;
-  align-items: top;
+  align-items: start;
 }
 
 .Settings-setting input {
@@ -209,6 +209,10 @@ a:active {
 
 .Settings-setting label {
   margin-inline-start: 8px;
+}
+
+.Settings-description {
+  min-height: 80px;
 }
 
 .top-right {

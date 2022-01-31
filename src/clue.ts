@@ -1,4 +1,4 @@
-import { Difficulty, englishNumbers, ordinal } from "./util";
+import { TargetPool, englishNumbers, ordinal, Mode } from "./util";
 
 export enum Clue {
   Absent,
@@ -59,11 +59,12 @@ export function describeClue(clue: CluedLetter[]): string {
 }
 
 export function violation(
-  difficulty: Difficulty,
+  targetPool: TargetPool,
+  mode: Mode,
   clues: CluedLetter[],
   guess: string
 ): string | undefined {
-  if (difficulty === Difficulty.Robot) {
+  if (targetPool === TargetPool.Robot) {
     return undefined;
   }
   let i = 0;
@@ -77,12 +78,12 @@ export function violation(
     const nth = ordinal(i + 1);
 
     // Hard: enforce greens stay in place.
-    if (clue === Clue.Correct && guess[i] !== letter) {
+    if (mode >= Mode.Hard && clue === Clue.Correct && guess[i] !== letter) {
       return nth + " letter must be " + glyph;
     }
 
     // Hard: enforce yellows are used.
-    if (guessCount < clueCount) {
+    if (mode >= Mode.Hard && guessCount < clueCount) {
       const atLeastN =
         clueCount > 1 ? `at least ${englishNumbers[clueCount]} ` : "";
       return `Guess must contain ${atLeastN}${glyphs}`;

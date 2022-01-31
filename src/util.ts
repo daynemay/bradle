@@ -1,8 +1,15 @@
 import dictionary from "./dictionary.json";
 
-export enum Difficulty {
+// Robot => every target is ROBOT; Abuse => targets are from src/targets.abuse.json
+export enum TargetPool {
   Robot,
   Abuse,
+}
+
+// Corresponds to Wordle modes
+export enum Mode {
+  Normal,
+  Hard,
 }
 
 export const maxGuesses = 6;
